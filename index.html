@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm modal</title>
+
+    <!-- Latest Boostrap compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional Boostrap theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body>
+
+<h1>Modal template 1</h1>
+<a href="http://www.test11.com" class="delete-btn">Delete</a><br>
+<a href="http://www.test12.com" class="delete-btn">Delete</a><br>
+<a href="http://www.test13.com" class="delete-btn">Delete</a><br>
+
+<h1>Modal template 2</h1>
+<a href="http://www.test21.com" class="delete-user-btn">Delete</a><br>
+<a href="http://www.test22.com" class="delete-user-btn">Delete</a><br>
+
+
+<script id="confirmModal" type="text/template">
+    <div class="modal fade" tabindex="-1" role="dialog"  data-toggle="modal" data-target=".bs-example-modal-sm">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body">
+                    {{modalDescription}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="delete" class="btn btn-default">{{btnYes}}</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{btnNo}}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</script>
+
+<script id="confirmUserModal" type="text/template">
+    <div class="modal fade" tabindex="-1" role="dialog"  data-toggle="modal" data-target=".bs-example-modal-sm">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body">
+                    {{modalDescription}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="delete" class="btn btn-default">{{btnYes}}</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{btnNo}}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" ></script>
+<!-- Latest Boostrap compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="./dist/js/confirm-modal.min.js"></script>
+
+
+<script>
+    $( document ).ready(function() {
+        $(".delete-btn").modalConfirm();
+        $(".delete-user-btn").modalConfirm({
+            selectors: {
+                modalBox: "#confirmUserModal"
+            }
+        });
+    });
+</script>
+</body>
+</html>

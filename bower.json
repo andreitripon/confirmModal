@@ -1,0 +1,29 @@
+{
+  "name": "confirm-modal",
+  "description": "Confirm modal",
+  "homepage": "",
+  "version": "0.0.0",
+  "keywords": [
+    "js",
+    "css",
+    "scss",
+    "bootstrap",
+    "jquery",
+    "confirm",
+    "confirmmodal"
+  ],
+  "main": [
+    "./dist/js/confirm-modal.min.js"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.11.0",
+    "bootstrap": ">= 2.3.2"
+  },
+  "ignore": [
+    "*.html",
+    "*.git*",
+    "*.md",
+    "*.png",
+    "*.php"
+  ]
+}

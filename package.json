@@ -1,0 +1,40 @@
+{
+  "name": "confirm-modal",
+  "version": "0.0.0",
+  "description": "JQuery confirmModal plugin based on Twitter Bootstrap.",
+  "main": "dist/js/confirm-modal.js",
+  "directories": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/..."
+  },
+  "keywords": [
+    "js",
+    "css",
+    "scss",
+    "bootstrap",
+    "jquery",
+    "confirm",
+    "confirmmodal"
+  ],
+  "author": "Tripon Andrei",
+  "license": "Apache License, Version 2.0",
+  "bugs": {
+    "url": "https://github.com/.../issues"
+  },
+  "homepage": "https://github.com/...",
+  "listFiles": {
+    "js": [
+      "src/js/confirm-modal.js"
+    ]
+  },
+  "minDest": {
+    "js": "dist/js/"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "~2.6.0",
+    "gulp-install": "^1.1.0",
+    "gulp-uglify": "~2.0.0"
+  }
+}
