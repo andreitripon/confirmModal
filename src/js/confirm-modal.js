@@ -1,22 +1,20 @@
 function ModalConfirm() {
     var obj = {};
-    obj.result = false;
-    obj.settings = {
+    obj.options = {
         texts: {
-            modalTitle: "Doriti sigur stergerea?",
-            modalDescription: "",
-            btnYes: "Da",
-            btnNo: "Nu"
+            modaltitle: "Doriti sigur stergerea?",
+            modaldescription: "",
+            btnyes: "Da",
+            btnno: "Nu"
         },
-        redirect: null,
         selectors: {
-            modalBox: "#confirmModal",
-            btnDelete: null
+            modalbox: "#confirmModal"
         }
     };
+    obj.settings = {};
 
     obj.setOptions = function(options) {
-        obj.settings = $.extend(true, {}, obj.settings, options);
+        obj.settings = $.extend(true, {}, obj.options, options);
     };
 
     obj.getOptions = function() {
@@ -26,11 +24,15 @@ function ModalConfirm() {
     obj.modalHtml = null;
 
     obj.setModalHtml = function() {
-        obj.modalHtml = $($(obj.settings.selectors.modalBox).clone().html());
+        obj.modalHtml = obj.existModalHtml() ? $($(obj.settings.selectors.modalbox).clone().html()) : null;
     };
 
     obj.getModalHtml = function() {
         return obj.modalHtml;
+    };
+
+    obj.existModalHtml = function() {
+        return (document.getElementById(obj.settings.selectors.modalbox.replace('#', '')) !== null && $.isFunction($.fn.modal));
     };
 
     obj.dataBind = function(key, text) {
@@ -39,35 +41,39 @@ function ModalConfirm() {
         $(obj.modalHtml).html($(obj.modalHtml).html().replace(re, text));
     };
 
-    obj.modal = function() {
-        obj.setModalHtml();
+    obj.response = function(btnElement, callback) {
+        if(obj.existModalHtml()) {
+            obj.setModalHtml();
 
-        if (typeof obj.settings.texts === "object") {
-            $.each(obj.settings.texts, function(key, text) {
-                obj.dataBind(key, text);
+            if (typeof obj.settings.texts === "object") {
+                $.each(obj.settings.texts, function (key, text) {
+                    obj.dataBind(key, text);
+                });
+            }
+
+            $(obj.modalHtml).modal({
+                backdrop: "static",
+                keyboard: false,
+                show: false
             });
+
+            $(obj.modalHtml).modal("show");
+            $(obj.modalHtml).one("click", "[data-action=delete]", function () {
+                callback(btnElement, $(obj.modalHtml));
+            });
+
+            $(obj.modalHtml).on("hide.bs.modal", function () {
+                $("body").removeClass("modal-open");
+                $(".modal-backdrop").remove();
+                callback = function () {
+                    return null;
+                };
+            });
+        }else{
+            if(confirm(obj.settings.texts.modaltitle+"\n"+obj.settings.texts.modaldescription)){
+                callback(btnElement, $(obj.modalHtml));
+            }
         }
-
-        $(obj.modalHtml).modal({
-            backdrop: "static",
-            keyboard: false,
-            show: false
-        });
-    };
-
-    obj.response = function(callback) {
-        $(obj.modalHtml).modal("show");
-        $(obj.modalHtml).one("click", "#delete", function() {
-            callback(obj.settings.selectors.btnDelete, $(obj.modalHtml));
-        });
-
-        $(obj.modalHtml).on("hide.bs.modal", function() {
-            $("body").removeClass("modal-open");
-            $(".modal-backdrop").remove();
-            callback = function() {
-                return null;
-            };
-        });
     };
 
     return obj;
@@ -82,8 +88,6 @@ $(function() {
             confirmFunction.setOptions(options);
         }
 
-        confirmFunction.modal();
-
         if (typeof newCallback === "function") {
             callback = newCallback;
         } else {
@@ -94,12 +98,20 @@ $(function() {
         }
 
         $(this).click(function() {
-            confirmFunction.setOptions({
-                selectors: {
-                    btnDelete: this
-                }
-            });
-            confirmFunction.response(callback);
+            var texts = $(this).data();
+            var modalBox = $(this).data('modalbox');
+            delete texts.modalbox;
+
+            var options = {};
+            if(texts && Object.keys(texts).length > 0){
+                options.texts = texts;
+            }
+            if(modalBox && Object.keys(modalBox).length > 0){
+                options.selectors = {modalbox : modalBox};
+            }
+            confirmFunction.setOptions(options);
+
+            confirmFunction.response(this, callback);
             return false;
         });
     };
